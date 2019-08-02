@@ -30,4 +30,7 @@ spec:
               value: rabbit-service
             - name: KERAS_BACKEND
               value: theano
+          resources:
+            requests:
+              memory: "15Gi"
 
