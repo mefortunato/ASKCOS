@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rabbit
+spec:
+  selector:
+    matchLabels:
+      pod: rabbit
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        pod: rabbit
+    spec:
+      containers:
+      - name: rabbit
+        image: rabbitmq
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 5672
+

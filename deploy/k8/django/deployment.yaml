@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django
+  labels:
+    app: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: django
+  template:
+    metadata:
+      labels:
+        pod: django
+    spec:
+      containers:
+        - name: django
+          image: thomasstruble/askcos_public
+          command: ["/bin/bash"]
+          args: ["-c", "uwsgi --http :8000 --master --processes=4 --wsgi-file /usr/local/ASKCOS/askcos/wsgi.py"]
+          ports:
+            - containerPort: 8000
+          env:
+            - name: CURRENT_HOST
+              value: "*"
+            - name: REDIS_HOST
+              value: redis-service
+            - name: RABBIT_HOST
+              value: rabbit-service
+            - name: KERAS_BACKEND
+              value: theano
+

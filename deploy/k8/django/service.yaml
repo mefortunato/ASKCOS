@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+  namespace: default
+  labels:
+    app: django
+spec:
+  ports:
+  - port: 80
+    targetPort: 8000
+  selector:
+    pod: django
+  type: LoadBalancer
+

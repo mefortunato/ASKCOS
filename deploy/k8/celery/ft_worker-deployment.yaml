@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: ft-worker
+  labels:
+    app: ft-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: ft-worker
+  template:
+    metadata:
+      labels:
+        pod: ft-worker
+    spec:
+      containers:
+        - name: ft-worker
+          image: thomasstruble/askcos_public
+          command: ["/bin/bash"]
+          args: ["-c", "celery -A askcos_site worker -c 2 -Q ft_worker -n ft_worker@%h"]
+          env:
+            - name: REDIS_HOST
+              value: redis-service
+            - name: RABBIT_HOST
+              value: rabbit-service
+            - name: KERAS_BACKEND
+              value: theano
+

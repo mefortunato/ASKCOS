@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: tb-c-worker
+  labels:
+    app: tb-c-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: tb-c-worker
+  template:
+    metadata:
+      labels:
+        pod: tb-c-worker
+    spec:
+      containers:
+        - name: tb-c-worker
+          image: thomasstruble/askcos_public
+          command: ["/bin/bash"]
+          args: ["-c", "celery -A askcos_site worker -c 12 -Q tb_c_worker -n tb_c_worker@%h"]
+          env:
+            - name: REDIS_HOST
+              value: redis-service
+            - name: RABBIT_HOST
+              value: rabbit-service
+            - name: KERAS_BACKEND
+              value: theano
+
