@@ -28,5 +28,5 @@ spec:
               value: theano
           resources:
             requests:
-              memory: "25Gi"
+              memory: "40Gi"
 
